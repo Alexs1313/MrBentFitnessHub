@@ -2,6 +2,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
 import MrBentFitnessHubStack from './MrBentFitnessHub/MrBentFitnessHubNavigation/MrBentFitnessHubStack';
 import MrBentFitnessHubLoader from './MrBentFitnessHub/MrBentFitnessComponents/MrBentFitnessHubLoader';
+import { ContextProvider } from './MrBentFitnessHub/MrBentFitnessHubStore/mrBentFitnessHubContext';
 
 const App = () => {
   const [isVisibleLoader, setIsVisibleLoader] = useState(false);
@@ -9,12 +10,18 @@ const App = () => {
   useEffect(() => {
     setTimeout(() => {
       setIsVisibleLoader(true);
-    }, 5000);
+    }, 5200);
   }, []);
 
   return (
     <NavigationContainer>
-      {isVisibleLoader ? <MrBentFitnessHubStack /> : <MrBentFitnessHubLoader />}
+      <ContextProvider>
+        {isVisibleLoader ? (
+          <MrBentFitnessHubStack />
+        ) : (
+          <MrBentFitnessHubLoader />
+        )}
+      </ContextProvider>
     </NavigationContainer>
   );
 };

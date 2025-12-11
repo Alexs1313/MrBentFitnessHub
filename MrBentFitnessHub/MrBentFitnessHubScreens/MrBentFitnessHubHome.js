@@ -8,77 +8,46 @@ import {
   Share,
   Dimensions,
 } from 'react-native';
+import { useStore } from '../MrBentFitnessHubStore/mrBentFitnessHubContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import MrBentFitnessHubBackground from '../MrBentFitnessComponents/MrBentFitnessHubBackground';
 
-const FITNESS_HUB_QUOTES = [
-  "Sir, a warm-up is not a suggestion, it's an obligation.",
-  "Discipline is not a mood, sir — it's a lifestyle.",
-  'Sir, one rep done well beats ten done carelessly.',
-  'Water, sir. Not later. Now.',
-  'Rest is earned, not given, sir.',
-  'Your future self is watching — don’t disappoint him, sir.',
-  'Even elegance requires sweat, sir.',
-  'Sir, motivation fades. Routine wins.',
-  'You’re not tired, sir — you’re upgrading.',
-  'Greatness requires punctuality… and push-ups, sir.',
-];
+import { FITNESS_HUB_QUOTES } from '../MrBentFitnessData/mrBentFitnessQts';
 
 const { height } = Dimensions.get('window');
 
 const MrBentFitnessHubHome = () => {
-  const [fitnessHubUser, setFitnessHubUser] = useState(null);
   const [fitnessHubQuote, setFitnessHubQuote] = useState('');
   const [fitnessHubTimeLeft, setFitnessHubTimeLeft] = useState('');
-  const [fitnessHubTodayMinutes, setFitnessHubTodayMinutes] = useState(0);
-  const [fitnessHubTodaySessions, setFitnessHubTodaySessions] = useState(0);
+  const {
+    fitnessHubTodayMinutes,
+    fitnessHubTodaySessions,
+    fitnessHubLoadTodayStats,
+    fitnessHubLoadUser,
+    fitnessHubUser,
+  } = useStore();
 
   useEffect(() => {
     fitnessHubLoadUser();
     fitnessHubLoadQuote();
     fitnessHubLoadTodayStats();
 
-    const timer = setInterval(fitnessHubUpdateTimer, 1000);
-    return () => clearInterval(timer);
+    const loadingTimer = setInterval(fitnessHubUpdateTimer, 1000);
+    return () => clearInterval(loadingTimer);
   }, []);
 
-  const fitnessHubLoadTodayStats = async () => {
-    const saved = await AsyncStorage.getItem('mrBentTrainings');
-    const list = saved ? JSON.parse(saved) : [];
-
-    if (list.length === 0) {
-      setFitnessHubTodayMinutes(0);
-      setFitnessHubTodaySessions(0);
-      return;
-    }
-
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const startOfDay = today.getTime();
-
-    const todayList = list.filter(t => t.id >= startOfDay);
-    const minutes = todayList.reduce((sum, t) => sum + Number(t.duration), 0);
-
-    setFitnessHubTodayMinutes(minutes);
-    setFitnessHubTodaySessions(todayList.length);
-  };
-
-  const fitnessHubLoadUser = async () => {
-    const saved = await AsyncStorage.getItem('mrBentUserData');
-    if (saved) setFitnessHubUser(JSON.parse(saved));
-  };
-
   const fitnessHubLoadQuote = async () => {
-    const savedQuote = await AsyncStorage.getItem('mrBentDailyQuote');
-    const savedTime = await AsyncStorage.getItem('mrBentQuoteTime');
+    const savedDailyQuote = await AsyncStorage.getItem('mrBentDailyQuote');
+    const savedQuoteTime = await AsyncStorage.getItem('mrBentQuoteTime');
 
-    const now = Date.now();
+    const fitNow = Date.now();
 
-    if (savedQuote && savedTime) {
-      const hoursPassed = (now - Number(savedTime)) / 3600000;
+    if (savedDailyQuote && savedQuoteTime) {
+      const fitnessHoursPassed = (fitNow - Number(savedQuoteTime)) / 3600000;
 
-      if (hoursPassed < 24) {
-        setFitnessHubQuote(savedQuote);
+      if (fitnessHoursPassed < 24) {
+        setFitnessHubQuote(savedDailyQuote);
         return;
       }
     }
@@ -87,35 +56,34 @@ const MrBentFitnessHubHome = () => {
   };
 
   const fitnessHubGenerateQuote = async () => {
-    const q =
+    const fitnessQuote =
       FITNESS_HUB_QUOTES[Math.floor(Math.random() * FITNESS_HUB_QUOTES.length)];
 
-    setFitnessHubQuote(q);
+    setFitnessHubQuote(fitnessQuote);
 
-    await AsyncStorage.setItem('mrBentDailyQuote', q);
+    await AsyncStorage.setItem('mrBentDailyQuote', fitnessQuote);
     await AsyncStorage.setItem('mrBentQuoteTime', Date.now().toString());
   };
 
   const fitnessHubUpdateTimer = async () => {
-    const savedTime = await AsyncStorage.getItem('mrBentQuoteTime');
-    if (!savedTime) return;
+    const savedQuoteTime = await AsyncStorage.getItem('mrBentQuoteTime');
+    if (!savedQuoteTime) return;
 
     const now = Date.now();
-    const diff = 24 * 3600 * 1000 - (now - Number(savedTime));
-
-    if (diff <= 0) {
+    const fitnessDiff = 24 * 3600 * 1000 - (now - Number(savedQuoteTime));
+    if (fitnessDiff <= 0) {
       setFitnessHubTimeLeft('00:00:00');
       return;
     }
 
-    const h = Math.floor(diff / 3600000);
-    const m = Math.floor((diff % 3600000) / 60000);
-    const s = Math.floor((diff % 60000) / 1000);
+    const fitHours = Math.floor(fitnessDiff / 3600000);
+    const fitMinutes = Math.floor((fitnessDiff % 3600000) / 60000);
+    const fitSeconds = Math.floor((fitnessDiff % 60000) / 1000);
 
     setFitnessHubTimeLeft(
-      `${h.toString().padStart(2, '0')}:` +
-        `${m.toString().padStart(2, '0')}:` +
-        `${s.toString().padStart(2, '0')}`,
+      `${fitHours.toString().padStart(2, '0')}:` +
+        `${fitMinutes.toString().padStart(2, '0')}:` +
+        `${fitSeconds.toString().padStart(2, '0')}`,
     );
   };
 

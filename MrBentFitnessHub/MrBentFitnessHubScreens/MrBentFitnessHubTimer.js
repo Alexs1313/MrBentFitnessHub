@@ -7,10 +7,11 @@ import {
   Dimensions,
   Image,
 } from 'react-native';
-import Svg, { Circle, G } from 'react-native-svg';
-import MrBentFitnessHubBackground from '../MrBentFitnessComponents/MrBentFitnessHubBackground';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
+import Svg, { Circle, G } from 'react-native-svg';
+
+import MrBentFitnessHubBackground from '../MrBentFitnessComponents/MrBentFitnessHubBackground';
 
 const { width, height } = Dimensions.get('window');
 
@@ -23,7 +24,6 @@ const MrBentFitnessHubTimer = () => {
   const fitnessHubRoute = useRoute();
   const fitnessHubNavigation = useNavigation();
   const { item: fitnessHubItem } = fitnessHubRoute.params;
-
   const [fitnessHubTime, setFitnessHubTime] = useState(
     fitnessHubItem.duration * 60,
   );
@@ -34,13 +34,13 @@ const MrBentFitnessHubTimer = () => {
   useEffect(() => {
     if (fitnessHubIsRunning) {
       fitnessHubIntervalRef.current = setInterval(() => {
-        setFitnessHubTime(prev => {
-          if (prev <= 1) {
+        setFitnessHubTime(prevTime => {
+          if (prevTime <= 1) {
             clearInterval(fitnessHubIntervalRef.current);
             setFitnessHubIsRunning(false);
             return 0;
           }
-          return prev - 1;
+          return prevTime - 1;
         });
       }, 1000);
     } else {

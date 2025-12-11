@@ -6,12 +6,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 
 const MrBentFitnessHubOnboard = () => {
-  const [fitnessHubIndex, setFitnessHubIndex] = useState(0);
+  const [fitnessHubIntro, setFitnessHubIntro] = useState(0);
   const navigation = useNavigation();
 
   const fitnessHubHandleNextSlide = async () => {
-    if (fitnessHubIndex < 2) {
-      setFitnessHubIndex(fitnessHubIndex + 1);
+    if (fitnessHubIntro < 2) {
+      setFitnessHubIntro(fitnessHubIntro + 1);
     } else {
       const fitnessHubSavedUser = await AsyncStorage.getItem('mrBentUserData');
 
@@ -26,12 +26,12 @@ const MrBentFitnessHubOnboard = () => {
   return (
     <MrBentFitnessHubBackground>
       <View style={styles.fitnessHubContainer}>
-        {fitnessHubIndex === 0 ? (
+        {fitnessHubIntro === 0 ? (
           <Image
             source={require('../../assets/images/fitnesshubonb1.png')}
             style={styles.fitnessHubImageTop}
           />
-        ) : fitnessHubIndex === 1 ? (
+        ) : fitnessHubIntro === 1 ? (
           <Image
             source={require('../../assets/images/fitnesshubonb2.png')}
             style={styles.fitnessHubImage}
@@ -50,21 +50,21 @@ const MrBentFitnessHubOnboard = () => {
           <View style={styles.fitnessHubInnerWrapper}>
             <View style={styles.fitnessHubContentBox}>
               <Text style={styles.fitnessHubTitle}>
-                {fitnessHubIndex === 0
+                {fitnessHubIntro === 0
                   ? 'Let’s begin your journey, sir!'
-                  : fitnessHubIndex === 1
+                  : fitnessHubIntro === 1
                   ? `Workout is 
 stylish, sir!`
                   : 'Time is your ally, sir!'}
               </Text>
 
               <Text style={styles.fitnessHubSubtitle}>
-                {fitnessHubIndex === 0
+                {fitnessHubIntro === 0
                   ? `Welcome! I’m Mr. Bent, your elegant guide to the world of sports and discipline.
 Together, we’ll create a regimen that 
 works for you.
 So don’t be shy—I’m here to push, but without the violence… well, almost.`
-                  : fitnessHubIndex === 1
+                  : fitnessHubIntro === 1
                   ? `Add your workout, mark your progress, and trust me to keep you organized.
 I’m not in a suit for nothing—I like everything neat, beautiful, and uncluttered.`
                   : `Set reminders for water, exercise, and sleep—I’ll send you a signal at the right moment.
@@ -78,9 +78,9 @@ Ready, sir? Then let’s go!`}
                 onPress={fitnessHubHandleNextSlide}
               >
                 <Text style={styles.fitnessHubButtonText}>
-                  {fitnessHubIndex === 0
+                  {fitnessHubIntro === 0
                     ? 'GOOD!'
-                    : fitnessHubIndex === 1
+                    : fitnessHubIntro === 1
                     ? 'NEXT!'
                     : 'START!'}
                 </Text>

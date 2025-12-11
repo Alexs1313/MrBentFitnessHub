@@ -9,6 +9,7 @@ import {
   FlatList,
   Dimensions,
 } from 'react-native';
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import LinearGradient from 'react-native-linear-gradient';
 import MrBentFitnessHubBackground from '../MrBentFitnessComponents/MrBentFitnessHubBackground';
@@ -20,7 +21,6 @@ const MrBentFoodAndDrink = () => {
   const [fitnessHubFoodList, setFitnessHubFoodList] = useState([]);
   const [fitnessHubDrinkList, setFitnessHubDrinkList] = useState([]);
   const [fitnessHubShowForm, setFitnessHubShowForm] = useState(false);
-
   const [fitnessHubSelectedValue, setFitnessHubSelectedValue] = useState(null);
   const [fitnessHubHour, setFitnessHubHour] = useState('');
   const [fitnessHubDate, setFitnessHubDate] = useState('');
@@ -29,21 +29,25 @@ const MrBentFoodAndDrink = () => {
   const FITNESS_HUB_DRINK_OPTIONS = ['100 ml', '200 ml', '300 ml'];
 
   useEffect(() => {
-    fitnessHubLoadLists();
+    fitnessHubLoadSavedLists();
   }, []);
 
-  const fitnessHubLoadLists = async () => {
-    const foodSaved = await AsyncStorage.getItem('mrBentFoodList');
-    const drinkSaved = await AsyncStorage.getItem('mrBentDrinkList');
+  const fitnessHubLoadSavedLists = async () => {
+    const selectedFoodSaved = await AsyncStorage.getItem('mrBentFoodList');
+    const selectedDrinkSaved = await AsyncStorage.getItem('mrBentDrinkList');
 
-    setFitnessHubFoodList(foodSaved ? JSON.parse(foodSaved) : []);
-    setFitnessHubDrinkList(drinkSaved ? JSON.parse(drinkSaved) : []);
+    setFitnessHubFoodList(
+      selectedFoodSaved ? JSON.parse(selectedFoodSaved) : [],
+    );
+    setFitnessHubDrinkList(
+      selectedDrinkSaved ? JSON.parse(selectedDrinkSaved) : [],
+    );
   };
 
   const fitnessHubSaveRecord = async () => {
     if (!fitnessHubSelectedValue || !fitnessHubHour || !fitnessHubDate) return;
 
-    const newItem = {
+    const newFitnessRec = {
       id: Date.now(),
       value: fitnessHubSelectedValue,
       hour: fitnessHubHour,
@@ -51,13 +55,19 @@ const MrBentFoodAndDrink = () => {
     };
 
     if (fitnessHubMode === 'FOOD') {
-      const updated = [...fitnessHubFoodList, newItem];
-      setFitnessHubFoodList(updated);
-      await AsyncStorage.setItem('mrBentFoodList', JSON.stringify(updated));
+      const updatedFoodList = [...fitnessHubFoodList, newFitnessRec];
+      setFitnessHubFoodList(updatedFoodList);
+      await AsyncStorage.setItem(
+        'mrBentFoodList',
+        JSON.stringify(updatedFoodList),
+      );
     } else {
-      const updated = [...fitnessHubDrinkList, newItem];
-      setFitnessHubDrinkList(updated);
-      await AsyncStorage.setItem('mrBentDrinkList', JSON.stringify(updated));
+      const updatedDrinkList = [...fitnessHubDrinkList, newFitnessRec];
+      setFitnessHubDrinkList(updatedDrinkList);
+      await AsyncStorage.setItem(
+        'mrBentDrinkList',
+        JSON.stringify(updatedDrinkList),
+      );
     }
 
     setFitnessHubSelectedValue(null);
@@ -68,17 +78,23 @@ const MrBentFoodAndDrink = () => {
 
   const fitnessHubDeleteItem = async id => {
     if (fitnessHubMode === 'FOOD') {
-      const updated = fitnessHubFoodList.filter(i => i.id !== id);
-      setFitnessHubFoodList(updated);
-      await AsyncStorage.setItem('mrBentFoodList', JSON.stringify(updated));
+      const updatedFoodList = fitnessHubFoodList.filter(i => i.id !== id);
+      setFitnessHubFoodList(updatedFoodList);
+      await AsyncStorage.setItem(
+        'mrBentFoodList',
+        JSON.stringify(updatedFoodList),
+      );
     } else {
-      const updated = fitnessHubDrinkList.filter(i => i.id !== id);
-      setFitnessHubDrinkList(updated);
-      await AsyncStorage.setItem('mrBentDrinkList', JSON.stringify(updated));
+      const updatedDrinkList = fitnessHubDrinkList.filter(i => i.id !== id);
+      setFitnessHubDrinkList(updatedDrinkList);
+      await AsyncStorage.setItem(
+        'mrBentDrinkList',
+        JSON.stringify(updatedDrinkList),
+      );
     }
   };
 
-  const FitnessHubCard = ({ item }) => (
+  const FitnessHubCard = ({ card }) => (
     <LinearGradient
       colors={['#ffffff', '#ffffff20']}
       style={styles.fitnessHubCardWrapper}
@@ -86,23 +102,23 @@ const MrBentFoodAndDrink = () => {
       <View style={styles.fitnessHubInnerPad}>
         <View style={styles.fitnessHubCard}>
           <View>
-            <Text style={styles.fitnessHubCardTitle}>{item.value}</Text>
+            <Text style={styles.fitnessHubCardTitle}>{card.value}</Text>
 
             <View style={styles.fitnessHubCardRow}>
               <View style={styles.fitnessHubRowBlock}>
                 <Text style={styles.fitnessHubSmallLabel}>Hour:</Text>
-                <Text style={styles.fitnessHubSmallValue}>{item.hour}</Text>
+                <Text style={styles.fitnessHubSmallValue}>{card.hour}</Text>
               </View>
 
               <View style={styles.fitnessHubRowBlock}>
                 <Text style={styles.fitnessHubSmallLabel}>Date:</Text>
-                <Text style={styles.fitnessHubSmallValue}>{item.date}</Text>
+                <Text style={styles.fitnessHubSmallValue}>{card.date}</Text>
               </View>
             </View>
           </View>
 
           <TouchableOpacity
-            onPress={() => fitnessHubDeleteItem(item.id)}
+            onPress={() => fitnessHubDeleteItem(card.id)}
             style={styles.fitnessHubDeleteBtn}
             activeOpacity={0.7}
           >

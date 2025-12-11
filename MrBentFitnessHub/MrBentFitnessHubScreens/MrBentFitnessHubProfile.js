@@ -8,11 +8,12 @@ import {
   Dimensions,
   Alert,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import LinearGradient from 'react-native-linear-gradient';
 import { launchImageLibrary } from 'react-native-image-picker';
+
 import MrBentFitnessHubBackground from '../MrBentFitnessComponents/MrBentFitnessHubBackground';
-import { useNavigation } from '@react-navigation/native';
 
 const { height } = Dimensions.get('window');
 
@@ -20,7 +21,6 @@ const MrBentFitnessHubProfile = () => {
   const [fitnessHubName, setFitnessHubName] = useState('');
   const [fitnessHubAge, setFitnessHubAge] = useState('');
   const [fitnessHubPhoto, setFitnessHubPhoto] = useState(null);
-
   const [fitnessHubTotalMinutes, setFitnessHubTotalMinutes] = useState(0);
   const [fitnessHubAverageDuration, setFitnessHubAverageDuration] = useState(0);
 
@@ -42,12 +42,15 @@ const MrBentFitnessHubProfile = () => {
   };
 
   const fitnessHubSaveProfile = async newPhoto => {
-    const updated = {
+    const updatedFitnessProfile = {
       name: fitnessHubName,
       age: fitnessHubAge,
       photo: newPhoto,
     };
-    await AsyncStorage.setItem('mrBentUserData', JSON.stringify(updated));
+    await AsyncStorage.setItem(
+      'mrBentUserData',
+      JSON.stringify(updatedFitnessProfile),
+    );
   };
 
   const fitnessHubChangePhoto = () => {
@@ -68,19 +71,22 @@ const MrBentFitnessHubProfile = () => {
 
   const fitnessHubLoadStats = async () => {
     const fitnessHubSaved = await AsyncStorage.getItem('mrBentTrainings');
-    const list = fitnessHubSaved ? JSON.parse(fitnessHubSaved) : [];
+    const fitnessHubList = fitnessHubSaved ? JSON.parse(fitnessHubSaved) : [];
 
-    if (!list.length) {
+    if (!fitnessHubList.length) {
       setFitnessHubTotalMinutes(0);
       setFitnessHubAverageDuration(0);
       return;
     }
 
-    const total = list.reduce((sum, t) => sum + Number(t.duration), 0);
-    const avg = Math.round(total / list.length);
+    const totalSavedCards = fitnessHubList.reduce(
+      (sum, t) => sum + Number(t.duration),
+      0,
+    );
+    const avgSavedCards = Math.round(totalSavedCards / fitnessHubList.length);
 
-    setFitnessHubTotalMinutes(total);
-    setFitnessHubAverageDuration(avg);
+    setFitnessHubTotalMinutes(totalSavedCards);
+    setFitnessHubAverageDuration(avgSavedCards);
   };
 
   const fitnessHubResetStats = () => {

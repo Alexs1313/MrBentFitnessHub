@@ -10,8 +10,9 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { useNavigation } from '@react-navigation/native';
-import MrBentFitnessHubBackground from '../MrBentFitnessComponents/MrBentFitnessHubBackground';
 import LinearGradient from 'react-native-linear-gradient';
+
+import MrBentFitnessHubBackground from '../MrBentFitnessComponents/MrBentFitnessHubBackground';
 
 const MrBentFitnessHubRegistration = () => {
   const navigation = useNavigation();

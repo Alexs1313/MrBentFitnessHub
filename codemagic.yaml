@@ -4,16 +4,16 @@ workflows:
     max_build_duration: 120
     instance_type: mac_mini_m2
     integrations:
-      app_store_connect: MrBentFitnessHubAPIKey
+      app_store_connect: MrBentFitnessHubNewAPIKey
     environment:
       ios_signing:
         distribution_type: app_store
-        bundle_identifier: com.MrBentFitnessHub
+        bundle_identifier: com.MrBentNew
       vars:
-        BUNDLE_ID: com.MrBentFitnessHub
+        BUNDLE_ID: com.MrBentNew
         XCODE_WORKSPACE: MrBentFitnessHub.xcworkspace
         XCODE_SCHEME: MrBentFitnessHub
-        APP_STORE_APPLE_ID: 6756297760
+        APP_STORE_APPLE_ID: 6756412092
     scripts:
       - name: Install npm dependencies
         script: |

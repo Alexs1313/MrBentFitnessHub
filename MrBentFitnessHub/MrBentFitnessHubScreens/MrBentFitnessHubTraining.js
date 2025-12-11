@@ -9,10 +9,11 @@ import {
   FlatList,
   Dimensions,
 } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import MrBentFitnessHubBackground from '../MrBentFitnessComponents/MrBentFitnessHubBackground';
 import LinearGradient from 'react-native-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import MrBentFitnessHubBackground from '../MrBentFitnessComponents/MrBentFitnessHubBackground';
 
 const { height } = Dimensions.get('window');
 

@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import LinearGradient from 'react-native-linear-gradient';
+
 import MrBentFitnessHubBackground from '../MrBentFitnessComponents/MrBentFitnessHubBackground';
 
 const { height } = Dimensions.get('window');
@@ -37,7 +38,7 @@ const MrBentFitnessHubStatistics = () => {
     }
 
     const fitnessHubTotal = fitnessHubTrainings.reduce(
-      (sum, t) => sum + Number(t.duration),
+      (fitSum, fitTime) => fitSum + Number(fitTime.duration),
       0,
     );
     setFitnessHubTotalMinutes(fitnessHubTotal);
@@ -51,7 +52,7 @@ const MrBentFitnessHubStatistics = () => {
     const fitnessHubWeekAgo = fitnessHubNow - 7 * 24 * 60 * 60 * 1000;
 
     const fitnessHubThisWeek = fitnessHubTrainings.filter(
-      t => t.id >= fitnessHubWeekAgo,
+      currWeek => currWeek.id >= fitnessHubWeekAgo,
     ).length;
 
     setFitnessHubWorkoutsPerWeek(fitnessHubThisWeek);
