@@ -94,7 +94,7 @@ const MrBentFoodAndDrink = () => {
     }
   };
 
-  const FitnessHubCard = ({ card }) => (
+  const FitnessHubCard = ({ item }) => (
     <LinearGradient
       colors={['#ffffff', '#ffffff20']}
       style={styles.fitnessHubCardWrapper}
@@ -102,23 +102,23 @@ const MrBentFoodAndDrink = () => {
       <View style={styles.fitnessHubInnerPad}>
         <View style={styles.fitnessHubCard}>
           <View>
-            <Text style={styles.fitnessHubCardTitle}>{card.value}</Text>
+            <Text style={styles.fitnessHubCardTitle}>{item.value}</Text>
 
             <View style={styles.fitnessHubCardRow}>
               <View style={styles.fitnessHubRowBlock}>
                 <Text style={styles.fitnessHubSmallLabel}>Hour:</Text>
-                <Text style={styles.fitnessHubSmallValue}>{card.hour}</Text>
+                <Text style={styles.fitnessHubSmallValue}>{item.hour}</Text>
               </View>
 
               <View style={styles.fitnessHubRowBlock}>
                 <Text style={styles.fitnessHubSmallLabel}>Date:</Text>
-                <Text style={styles.fitnessHubSmallValue}>{card.date}</Text>
+                <Text style={styles.fitnessHubSmallValue}>{item.date}</Text>
               </View>
             </View>
           </View>
 
           <TouchableOpacity
-            onPress={() => fitnessHubDeleteItem(card.id)}
+            onPress={() => fitnessHubDeleteItem(item.id)}
             style={styles.fitnessHubDeleteBtn}
             activeOpacity={0.7}
           >
