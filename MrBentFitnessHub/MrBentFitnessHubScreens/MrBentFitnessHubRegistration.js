@@ -103,7 +103,7 @@ const MrBentFitnessHubRegistration = () => {
           </View>
         </LinearGradient>
 
-        {fitnessHubName && fitnessHubPhoto ? (
+        {fitnessHubName ? (
           <TouchableOpacity
             style={styles.fitnessHubSaveBtn}
             onPress={fitnessHubHandleSave}

@@ -143,14 +143,30 @@ const MrBentFitnessHubProfile = () => {
             <View style={styles.fitnessHubProfileCard}>
               <View style={styles.fitnessHubPhotoRow}>
                 <View onPress={fitnessHubChangePhoto}>
-                  <Image
-                    source={
-                      fitnessHubPhoto
-                        ? { uri: fitnessHubPhoto }
-                        : require('../../assets/images/fitnesshubcam.png')
+                  <View
+                    style={
+                      !fitnessHubPhoto && {
+                        width: 130,
+                        height: 130,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        backgroundColor: '#081C35',
+                        borderRadius: 12,
+                      }
                     }
-                    style={styles.fitnessHubPhoto}
-                  />
+                  >
+                    <Image
+                      source={
+                        fitnessHubPhoto
+                          ? { uri: fitnessHubPhoto }
+                          : require('../../assets/images/fitnesshubcam.png')
+                      }
+                      style={[
+                        styles.fitnessHubPhoto,
+                        !fitnessHubPhoto && { width: 30, height: 30 },
+                      ]}
+                    />
+                  </View>
                 </View>
 
                 <TouchableOpacity
