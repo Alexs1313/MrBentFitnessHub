@@ -19,7 +19,6 @@ const { height } = Dimensions.get('window');
 
 const MrBentFitnessHubProfile = () => {
   const [fitnessHubName, setFitnessHubName] = useState('');
-  const [fitnessHubAge, setFitnessHubAge] = useState('');
   const [fitnessHubPhoto, setFitnessHubPhoto] = useState(null);
   const [fitnessHubTotalMinutes, setFitnessHubTotalMinutes] = useState(0);
   const [fitnessHubAverageDuration, setFitnessHubAverageDuration] = useState(0);
@@ -36,7 +35,6 @@ const MrBentFitnessHubProfile = () => {
     if (fitnessHubSaved) {
       const fitnessHubObj = JSON.parse(fitnessHubSaved);
       setFitnessHubName(fitnessHubObj.name || '');
-      setFitnessHubAge(fitnessHubObj.age || '');
       setFitnessHubPhoto(fitnessHubObj.photo || null);
     }
   };
@@ -44,7 +42,6 @@ const MrBentFitnessHubProfile = () => {
   const fitnessHubSaveProfile = async newPhoto => {
     const updatedFitnessProfile = {
       name: fitnessHubName,
-      age: fitnessHubAge,
       photo: newPhoto,
     };
     await AsyncStorage.setItem(
@@ -122,7 +119,6 @@ const MrBentFitnessHubProfile = () => {
             await AsyncStorage.removeItem('mrBentTrainings');
 
             setFitnessHubName('');
-            setFitnessHubAge('');
             setFitnessHubPhoto(null);
             setFitnessHubTotalMinutes(0);
             setFitnessHubAverageDuration(0);
@@ -173,15 +169,6 @@ const MrBentFitnessHubProfile = () => {
                   <View style={styles.fitnessHubInfoInput}>
                     <Text style={styles.fitnessHubInfoValue}>
                       {fitnessHubName}
-                    </Text>
-                  </View>
-                </View>
-
-                <View style={styles.fitnessHubInfoCol}>
-                  <Text style={styles.fitnessHubInfoLabel}>Age:</Text>
-                  <View style={styles.fitnessHubInfoInput}>
-                    <Text style={styles.fitnessHubInfoValue}>
-                      {fitnessHubAge}
                     </Text>
                   </View>
                 </View>

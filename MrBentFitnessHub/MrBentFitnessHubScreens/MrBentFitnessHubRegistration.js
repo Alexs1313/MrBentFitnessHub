@@ -18,7 +18,6 @@ const MrBentFitnessHubRegistration = () => {
   const navigation = useNavigation();
 
   const [fitnessHubName, setFitnessHubName] = useState('');
-  const [fitnessHubAge, setFitnessHubAge] = useState('');
   const [fitnessHubPhoto, setFitnessHubPhoto] = useState(null);
 
   const fitnessHubSelectPhoto = () => {
@@ -36,11 +35,10 @@ const MrBentFitnessHubRegistration = () => {
   };
 
   const fitnessHubHandleSave = async () => {
-    if (!fitnessHubName.trim() || !fitnessHubAge.trim()) return;
+    if (!fitnessHubName.trim()) return;
 
     const fitnessHubData = {
       name: fitnessHubName,
-      age: fitnessHubAge,
       photo: fitnessHubPhoto,
     };
 
@@ -78,20 +76,6 @@ const MrBentFitnessHubRegistration = () => {
                     maxLength={12}
                   />
                 </View>
-
-                <View style={styles.fitnessHubInputBlock}>
-                  <Text style={styles.fitnessHubLabel}>Age:</Text>
-
-                  <TextInput
-                    style={styles.fitnessHubInput}
-                    placeholder="Age"
-                    placeholderTextColor="#5A7A9A"
-                    keyboardType="numeric"
-                    onChangeText={setFitnessHubAge}
-                    value={fitnessHubAge}
-                    maxLength={3}
-                  />
-                </View>
               </View>
 
               <View style={styles.fitnessHubPhotoRow}>
@@ -119,7 +103,7 @@ const MrBentFitnessHubRegistration = () => {
           </View>
         </LinearGradient>
 
-        {fitnessHubName && fitnessHubAge && fitnessHubPhoto ? (
+        {fitnessHubName && fitnessHubPhoto ? (
           <TouchableOpacity
             style={styles.fitnessHubSaveBtn}
             onPress={fitnessHubHandleSave}
@@ -173,7 +157,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   fitnessHubInputBlock: {
-    width: '48%',
+    width: '100%',
   },
   fitnessHubLabel: {
     color: '#FFFFFF',
