@@ -79,7 +79,7 @@ const MrBentFitnessHubRegistration = () => {
               </View>
 
               <View style={styles.fitnessHubPhotoRow}>
-                <Text style={styles.fitnessHubLabel}>Add your photo:</Text>
+                <Text style={styles.fitnessHubLabel}>Add photo:</Text>
 
                 <TouchableOpacity
                   style={styles.fitnessHubPhotoBox}
