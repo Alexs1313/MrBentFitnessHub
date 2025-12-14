@@ -344,7 +344,7 @@ const styles = StyleSheet.create({
   },
   fitnessHubStatValue: {
     color: '#fff',
-    fontSize: 28,
+    fontSize: 22,
     fontWeight: '700',
   },
   fitnessHubResetBtn: {

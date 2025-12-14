@@ -6,6 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
+  Platform,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { launchImageLibrary } from 'react-native-image-picker';
@@ -53,7 +54,16 @@ const MrBentFitnessHubRegistration = () => {
   return (
     <MrBentFitnessHubBackground>
       <View style={styles.fitnessHubContainer}>
-        <Image source={require('../../assets/images/fitnesshubreglogo.png')} />
+        {Platform.OS === 'ios' ? (
+          <Image
+            source={require('../../assets/images/fitnesshubreglogo.png')}
+          />
+        ) : (
+          <Image
+            source={require('../../assets/images/andrlogo.png')}
+            style={{ width: 83, height: 83, borderRadius: 22 }}
+          />
+        )}
 
         <Text style={styles.fitnessHubTitle}>REGISTRATION</Text>
 

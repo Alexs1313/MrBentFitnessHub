@@ -1,6 +1,6 @@
 import React from 'react';
 import { WebView } from 'react-native-webview';
-import { View, StyleSheet, Image } from 'react-native';
+import { View, StyleSheet, Image, Platform } from 'react-native';
 import { mrBentFitnessHubHtmlLoader } from '../MrBentFitnessHubUtils/mrBentFitnessHubHtmlLoader';
 import MrBentFitnessHubBackground from './MrBentFitnessHubBackground';
 
@@ -8,7 +8,14 @@ const MrBentFitnessHubLoader = () => {
   return (
     <MrBentFitnessHubBackground>
       <View style={styles.fitnesshubcontainer}>
-        <Image source={require('../../assets/images/fitnesshubldr.png')} />
+        {Platform.OS === 'ios' ? (
+          <Image source={require('../../assets/images/fitnesshubldr.png')} />
+        ) : (
+          <Image
+            source={require('../../assets/images/andrlogo.png')}
+            style={{ width: 320, height: 320, borderRadius: 52 }}
+          />
+        )}
         <View style={styles.fitnesshubwrapper}>
           <WebView
             originWhitelist={['*']}

@@ -1,4 +1,11 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  Image,
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import MrBentFitnessHubBackground from '../MrBentFitnessComponents/MrBentFitnessHubBackground';
 import LinearGradient from 'react-native-linear-gradient';
 import { useState } from 'react';
@@ -59,17 +66,35 @@ stylish, sir!`
               </Text>
 
               <Text style={styles.fitnessHubSubtitle}>
-                {fitnessHubIntro === 0
-                  ? `Welcome! I’m Mr. Bent, your elegant guide to the world of sports and discipline.
+                {Platform.OS === 'ios' ? (
+                  <>
+                    {fitnessHubIntro === 0
+                      ? `Welcome! I’m Mr. Bent, your elegant guide to the world of sports and discipline.
 Together, we’ll create a regimen that 
 works for you.
 So don’t be shy—I’m here to push, but without the violence… well, almost.`
-                  : fitnessHubIntro === 1
-                  ? `Add your workout, mark your progress, and trust me to keep you organized.
+                      : fitnessHubIntro === 1
+                      ? `Add your workout, mark your progress, and trust me to keep you organized.
 I’m not in a suit for nothing—I like everything neat, beautiful, and uncluttered.`
-                  : `Set reminders for water, exercise, and sleep—I’ll send you a signal at the right moment.
+                      : `Set reminders for water, exercise, and sleep—I’ll send you a signal at the right moment.
 And the stats show you how you’re becoming the best version of yourself.
 Ready, sir? Then let’s go!`}
+                  </>
+                ) : (
+                  <>
+                    {fitnessHubIntro === 0
+                      ? `Welcome! I’m Mr. Goldbent, your elegant guide to the world of sports and discipline.
+Together, we’ll create a regimen that 
+works for you.
+So don’t be shy—I’m here to push, but without the violence… well, almost.`
+                      : fitnessHubIntro === 1
+                      ? `Add your workout, mark your progress, and trust me to keep you organized.
+I’m not in a suit for nothing—I like everything neat, beautiful, and uncluttered.`
+                      : `Set reminders for water, exercise, and sleep—I’ll send you a signal at the right moment.
+And the stats show you how you’re becoming the best version of yourself.
+Ready, sir? Then let’s go!`}
+                  </>
+                )}
               </Text>
 
               <TouchableOpacity

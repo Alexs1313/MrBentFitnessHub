@@ -350,7 +350,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#63ADE3',
     paddingVertical: 12,
-    paddingHorizontal: 40,
+    paddingHorizontal: 10,
     height: 57,
     borderRadius: 12,
     justifyContent: 'center',
@@ -516,7 +516,7 @@ const styles = StyleSheet.create({
   },
   fitnessHubAddBtnText: {
     color: '#fff',
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: '700',
   },
   fitnessHubListSpacing: {
